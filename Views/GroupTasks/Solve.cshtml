@@ -1,0 +1,134 @@
+﻿@model SystemWspomaganiaNauczania.ViewModel.GroupTaskWordViewModel
+@{
+    ViewBag.Title = "Rozwiaz zadanie";
+}
+
+<h2>Pogrupuj odpowiednio wyrażenia</h2>
+
+@using (Html.BeginForm("Solve", "GroupTasks", FormMethod.Post))
+{
+    <input type="hidden" name="ID" readonly="readonly" value="@ViewBag.TaskID" />
+
+    <div id="MyContainer">
+
+        <label id="WordLabel" style="display:none">Przykład do pogrupowania</label>
+        <div id="wordContainer" class="wordContainers">
+            @foreach (var item in Model.Wordslist1)
+            {
+                <input type="text" readonly="readonly" role="button"  aria-grabbed="false" aria-labelledby="WordLabel"  draggable="true" style="cursor:move; margin:5px;" class="btn btn-default drag " value="@item.Name" />
+
+
+            }
+        </div>
+        @if (Model.AreaName[0] != null)
+        {
+            <label for="FirstContainer" style="font-size:20px; font-weight:bold; text-align:center;"> @Model.AreaName[0]</label>
+            @*<input type="text" class="form-control" readonly="readonly" name="AreaName[0]" value="@Model.AreaName[0]" style="width: 150px; display: inline; background-color:white;" placeholder="Nazwa" />
+            *@
+            <label id="label1" style="display:none">Kontener na przykłady @Model.AreaName[0] </label>
+            <div id="FirstContainer" role="region" aria-labelledby="label1" tabindex="0" aria-dropeffect="execute" class="wordContainers styleContainers">
+
+            </div>
+
+        }
+        @if (Model.AreaName[1] != null)
+        {
+            <label for="SecondContainer" style="font-size:20px; font-weight:bold; text-align:center;"> @Model.AreaName[1]</label>
+
+            <label id="label2" style="display:none">Kontener na przykłady @Model.AreaName[1] </label>
+            @*<input type="text" class="form-control" readonly="readonly" name="AreaName[1]" value="@Model.AreaName[1]" style="width: 150px; display: inline; background-color: white;" placeholder="Nazwa" />
+            *@
+            <div id="SecondContainer" role="region" aria-labelledby="label2" tabindex="0" aria-dropeffect="execute" class="wordContainers styleContainers">
+
+
+            </div>
+        }
+        @if (Model.AreaName[2] != null)
+        {
+            <label for="ThirdContainer" style="font-size:20px; font-weight:bold; text-align:center;">@Model.AreaName[2]</label>
+            @*<input type="text" class="form-control" readonly="readonly" name="AreaName[2]" value="@Model.AreaName[2]" style="width: 150px; display: inline; background-color: white;" placeholder="Nazwa" />
+            *@
+            <label id="label3" style="display:none">Kontener na przykłady @Model.AreaName[2] </label>
+            <div id="ThirdContainer" role="region" aria-labelledby="label3" tabindex="0" aria-dropeffect="execute" class="wordContainers styleContainers">
+
+            </div>
+        }
+
+    </div>
+    <div id="submitDiv">
+        <input type="submit" class="btn btn-success" onclick="addClassName()" value="Sprawdź" />
+    </div>
+}
+
+<script type="text/javascript">
+
+    var draggables = document.querySelectorAll(".drag");
+    var containers = document.querySelectorAll(".wordContainers");
+
+    draggables.forEach(draggable => {
+
+        draggable.addEventListener("dragstart", () => {
+            draggable.classList.add("dragging")
+            draggable.setAttribute("aria-grabbed", "true")
+            draggable.setAttribute("aria-dropeffect", "move")
+        })
+
+        draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("dragging")
+            draggable.removeAttribute("aria-dropeffect", "move")
+            draggable.setAttribute("aria-grabbed", "false")
+        })
+     
+    })
+
+    containers.forEach(container => {
+
+        container.addEventListener("dragover", () => {
+            const draggable = document.querySelector(".dragging")
+            if (container.id == "FirstContainer") {
+                draggable.classList.remove("second");
+                draggable.classList.remove("third");
+                draggable.classList.add("first");
+
+            } else if (container.id == "SecondContainer") {
+                draggable.classList.remove("first");
+                draggable.classList.remove("third");
+                draggable.classList.add("second");
+            } else if (container.id == "ThirdContainer") {
+                draggable.classList.remove("second");
+                draggable.classList.remove("first");
+                draggable.classList.add("third");
+            } else {
+                draggable.classList.remove("first");
+                draggable.classList.remove("second");
+                draggable.classList.remove("third");
+               
+            }
+            container.appendChild(draggable);
+
+        })
+    })
+
+    function addClassName() {
+        var iterator = 0;
+        $(".first").each(function () {
+            this.setAttribute("name", "Wordslist1[" + iterator + "].Name")
+            iterator++;
+        });
+
+        iterator = 0;
+        $(".second").each(function () {
+            this.setAttribute("name", "Wordslist2[" + iterator + "].Name")
+            iterator++;
+        });
+
+        iterator = 0;
+        $(".third").each(function () {
+            this.setAttribute("name", "Wordslist3[" + iterator + "].Name")
+            iterator++;
+        });
+    }
+
+
+
+</script>

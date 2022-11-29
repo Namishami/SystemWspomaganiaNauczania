@@ -1,0 +1,182 @@
+﻿@model SystemWspomaganiaNauczania.Models.GroupTask
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "GroupTasks", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        <div class="row">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <div style="padding: 10px;">
+                        <label for="Title">Nazwa </label>
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+                    </div>
+                    <div style="padding: 10px;">
+                        <label for="Description">Krótki opis</label>
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div style="padding: 10px;">
+                        <label for="image">Zdjęcie</label>
+                        <input type="file" name="imageGroupTaskFile" id="imageTest" style="padding: 6px 0px;" />
+                        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <h3>Aktualnie dodane wyrazy:</h3>
+        @if (ViewBag.AreaName.Count > 0)
+        {
+            <input type="text" class="form-control" name="AreaName[0]" style="width: 150px; display: inline;" value="@ViewBag.AreaName[0]" />
+        }
+        else
+        {
+            <input type="text" class="form-control" name="AreaName[0]" style="width: 150px; display: inline;" placeholder="Nazwa" />
+
+        }
+        <div id="FirstContainer" class="wordContainers styleContainers">
+            <div style="display: inline; margin-right:10px">
+                @if (ViewBag.WordList1.Count > 0 && ViewBag.WordList1 != null)
+                {
+                    foreach (var item in ViewBag.WordList1)
+                    {
+                        <div style="display:inline; margin-right:10px">
+                            <input type="text" class="form-control first" style="width: 150px; display: inline;" value="@item.Name" />
+                            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+                        </div>
+                    }
+                }
+
+            </div>
+            <input id="AddQuestion" class="btn btn-default" type="button" value="Dodaj nowe pytanie" onclick="addNewWord(this)" />
+        </div>
+
+        @if (ViewBag.AreaName.Count > 0)
+        {
+            <input type="text" class="form-control" name="AreaName[1]" style="width: 150px; display: inline;" value="@ViewBag.AreaName[1]" />
+        }
+        else
+        {
+            <input type="text" class="form-control" name="AreaName[1]" style="width: 150px; display: inline;" placeholder="Nazwa" />
+
+        }
+        <div id="SecondContainer" class="wordContainers styleContainers">
+            <div style="display: inline; margin-right:10px">
+                @if (ViewBag.WordList2.Count > 0 && ViewBag.WordList2 != null)
+                {
+                    foreach (var item in ViewBag.WordList2)
+                    {
+                        <div style="display:inline; margin-right:10px">
+                            <input type="text" class="form-control second" style="width: 150px; display: inline;" value="@item.Name" />
+                            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 2px;" onclick="DeleteItem(this)" />
+                        </div>
+                    }
+                }
+            </div>
+
+            <input id="AddQuestion" class="btn btn-default" type="button" value="Dodaj nowe pytanie" onclick="addNewWord(this)" />
+        </div>
+        @if (ViewBag.AreaName.Count > 0)
+        {
+            <input type="text" class="form-control" name="AreaName[2]" style="width: 150px; display: inline;" value="@ViewBag.AreaName[2]" />
+        }
+        else
+        {
+            <input type="text" class="form-control" name="AreaName[2]" style="width: 150px; display: inline;" placeholder="Nazwa" />
+
+        }
+        <div id="ThirdContainer" class="wordContainers styleContainers">
+            <div style="display: inline; margin-right:10px">
+                @if (ViewBag.WordList3.Count > 0 && ViewBag.WordList3 != null)
+                {
+                    foreach (var item in ViewBag.WordList3)
+                    {
+                        <div style="display:inline; margin-right:10px">
+                            <input type="text" class="form-control third" style="width: 150px; display: inline;" value="@item.Name" />
+                            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+                        </div>
+                    }
+                }
+            </div>
+            <input id="AddQuestion" class="btn btn-default" type="button" value="Dodaj nowe pytanie" onclick="addNewWord(this)" />
+        </div>
+
+        <div class="form-group" style="padding-left:25px;">
+            <div class="col-md-offset-2 col-md-10" style="margin-left: 0; margin-top: 15px;">
+                @Html.ActionLink("Powrót", "MyOrderTask", "Home", null, new { @class = "btn btn-default" })
+                <input type="submit" value="Zapisz zmiany" onclick="addClassName()" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    function addNewWord(container) {
+        var div = $("<div/>");
+        div.attr("style", "display:inline; margin-right:10px")
+
+        var button = $("<input />").attr("type", "button").attr("value", "Usuń").attr("class", "btn btn-danger").attr("style", "margin-left: 5px;");
+        if ($(container).parent().attr("id") == "FirstContainer") {
+            var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control first").attr("style", "width:150px; display:inline").attr("placeholder", "Wyraz");
+
+        } else if (($(container).parent().attr("id") == "SecondContainer")) {
+            var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control second").attr("style", "width:150px; display:inline").attr("placeholder", "Wyraz");
+
+        } else {
+            var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control third").attr("style", "width:150px; display:inline").attr("placeholder", "Wyraz");
+
+        }
+
+        contentInput.val("");
+        div.append(contentInput);
+        button.attr("onclick", "DeleteItem(this)");
+        div.append(button);
+
+        $(div).insertBefore(container);
+
+    }
+    function DeleteItem(div) {
+        $(div).parent().remove();
+    }
+
+    function addClassName() {
+        var iterator = 0;
+        $(".first").each(function () {
+            this.setAttribute("name", "Wordslist1[" + iterator + "].Name")
+            iterator++;
+        });
+
+        iterator = 0;
+        $(".second").each(function () {
+            this.setAttribute("name", "Wordslist2[" + iterator + "].Name")
+            iterator++;
+        });
+        iterator = 0;
+        $(".third").each(function () {
+            this.setAttribute("name", "Wordslist3[" + iterator + "].Name")
+            iterator++;
+        });
+    }
+
+
+</script>

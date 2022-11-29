@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+<ul class="nav navbar-nav navbar-right">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+            Witaj @User.Identity.GetUserName()
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>@Html.ActionLink("Mój profil", "Details", "Profiles", routeValues: null, htmlAttributes: new { title = "Szczegóły" })</li>
+            <li>@Html.ActionLink("Moje zadania", "MyOrderTask", "Profiles", routeValues: null, htmlAttributes: new { title = "Moje zadania" })</li>
+            <li>@Html.ActionLink("Rozwiązane zadania", "OrderTaskSolved", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
+            <li>@Html.ActionLink("Opcje", "Options", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
+
+        </ul>
+    </li>
+    <li>  <a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a></li>
+</ul>
+       
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Zarejestruj ", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Zaloguj ", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

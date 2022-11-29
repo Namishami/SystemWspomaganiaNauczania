@@ -1,0 +1,116 @@
+﻿@model SystemWspomaganiaNauczania.ViewModel.GroupTaskWordViewModel
+
+@{
+    ViewBag.Title = "Nastepny krok";
+}
+
+<h2>Dodaj wyrazy</h2>
+
+<hr />
+
+
+
+
+@using (Html.BeginForm("CreateNextStep", "GroupTasks", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="hidden" name="ID" value="@ViewBag.GroupTaskID" />
+
+    <h3>Aktualnie dodane wyrazy:</h3>
+
+    <input type="text" class="form-control" name="AreaName[0]" style="width: 150px; display: inline;" placeholder="Nazwa" />
+    <div id="FirstContainer" class="wordContainers styleContainers">
+        <div style="display: inline; margin-right:10px">
+            <input type="text" class="form-control first" style="width: 150px; display: inline;" placeholder="Wyraz" />
+            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+        </div>
+        <div style="display: inline; margin-right:10px">
+            <input type="text" class="form-control first" style="width: 150px; display: inline;" placeholder="Wyraz" />
+            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+        </div>
+        <input id="AddQuestion" class="btn btn-default" type="button" value="Dodaj nowe pytanie" onclick="addNewWord(this)" />
+    </div>
+
+    <input type="text" class="form-control" name="AreaName[1]" style="width: 150px; display: inline;" placeholder="Nazwa" />
+    <div id="SecondContainer" class="wordContainers styleContainers">
+        <div style="display: inline; margin-right:10px">
+            <input type="text" class="form-control second" style="width: 150px; display: inline;" placeholder="Wyraz" />
+            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 2px;" onclick="DeleteItem(this)" />
+        </div>
+        <div style="display: inline; margin-right:10px">
+            <input type="text" class="form-control second" style="width: 150px; display: inline;" placeholder="Wyraz" />
+            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+
+        </div>
+        <input id="AddQuestion" class="btn btn-default" type="button" value="Dodaj nowe pytanie" onclick="addNewWord(this)" />
+    </div>
+
+    <input type="text" class="form-control"name="AreaName[2]" style="width: 150px; display: inline;" placeholder="Nazwa" />
+    <div id="ThirdContainer" class="wordContainers styleContainers">
+        <div style="display: inline; margin-right:10px">
+            <input type="text" class="form-control third" style="width: 150px; display: inline;" placeholder="Wyraz" />
+            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+        </div>
+        <div style="display: inline; margin-right:10px">
+            <input type="text" class="form-control third" style="width: 150px; display: inline;" placeholder="Wyraz" />
+            <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+        </div>
+        <input id="AddQuestion" class="btn btn-default" type="button" value="Dodaj nowe pytanie" onclick="addNewWord(this)" />
+    </div>
+
+    <div style="margin-top:15px;">
+        <input type="submit" value="Utwórz zadanie" class="btn btn-success" onclick="CreateTask()" />
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    function addNewWord(container) {
+        var div = $("<div/>");
+        div.attr("style", "display:inline; margin-right:10px")
+
+        var button = $("<input />").attr("type", "button").attr("value", "Usuń").attr("class", "btn btn-danger").attr("style", "margin-left: 5px;");
+        if ($(container).parent().attr("id") == "FirstContainer") {
+            var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control first").attr("style", "width:150px; display:inline").attr("placeholder", "Wyraz");
+
+        } else if (($(container).parent().attr("id") == "SecondContainer")){
+            var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control second").attr("style", "width:150px; display:inline").attr("placeholder", "Wyraz");
+
+        } else {
+            var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control third").attr("style", "width:150px; display:inline").attr("placeholder", "Wyraz");
+
+        }
+       
+        contentInput.val("");
+        div.append(contentInput);
+        button.attr("onclick", "DeleteItem(this)");
+        div.append(button);
+
+        $(div).insertBefore(container);
+
+    }
+    function DeleteItem(div) {
+        $(div).parent().remove();
+    }
+
+    function CreateTask() {
+        var iterator = 0;
+        $(".first").each(function () {
+            this.setAttribute("name", "Wordslist1[" + iterator + "].Name")
+            iterator++;
+        });
+
+        iterator = 0;
+        $(".second").each(function () {
+            this.setAttribute("name", "Wordslist2[" + iterator + "].Name")
+            iterator++;
+        });
+        iterator = 0;
+        $(".third").each(function () {
+            this.setAttribute("name", "Wordslist3[" + iterator + "].Name")
+            iterator++;
+        });
+    }
+
+
+</script>

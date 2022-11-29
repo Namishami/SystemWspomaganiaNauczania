@@ -1,0 +1,192 @@
+﻿@model SystemWspomaganiaNauczania.ViewModel.OrderTaskWordViewModel
+
+@{
+    ViewBag.Title = "Nastepny krok";
+}
+
+<h2>Dodaj wyrazy</h2>
+
+<hr />
+@using (Html.BeginForm("CreateNextStep", "OrderTasks", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="hidden" value="@ViewBag.OrderTaskID" />
+
+    <h3 aria-required="true" id="tel_info">Aktualnie dodane wyrazy:</h3>
+
+    <p style="color:red">@ViewBag.errMsg</p>
+
+    <div class="container">
+        <table class="table table-striped" id="myTable">
+            <tbody class="MyContainer" id="MyContainer">
+
+                <tr draggable="true" class="draggable" tabindex="0" aria-dropeffect="move" aria-grabbed="false">
+                    <td>
+
+                        <input type="text" class="form-control items setName"  style="display: inline;" placeholder="Wyraz" />
+                    </td>
+                    <td>
+                        <input type="Button" class="btn btn-danger" onclick="DeleteItem(this)" value="Usuń wyraz" style="margin-left: 5px;" />
+                    </td>
+                </tr>
+                <tr draggable="true" class="draggable" tabindex="0" aria-dropeffect="move" aria-grabbed="false">
+                    <td>
+
+                        <input type="text" class="form-control items setName"  style="display: inline;" placeholder="Wyraz" />
+                    </td>
+                    <td>
+                        <input type="Button" class="btn btn-danger" onclick="DeleteItem(this)" value="Usuń wyraz" style="margin-left: 5px;" />
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        </div>
+
+        @*<div id="Container" class="MyContainer" aria-dropeffect="execute" style="text-align:center">
+
+                <div class="draggable"style=" margin-right:10px" tabindex="0" draggable="true" aria-dropeffect="move" aria-grabbed="false">
+                    <input type="text" class="form-control items" style="width: 150px; display: inline;" placeholder="Wyraz" />
+                    <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+                </div>
+
+                <div  class="draggable" style="margin-right:10px" tabindex="0" draggable="true" aria-dropeffect="move" aria-grabbed="false">
+                    <input type="text" class="form-control items" style="width: 150px; display: inline;" placeholder="Wyraz" />
+                    <input type="button" value="Usuń" class="btn btn-danger" style="margin-left: 5px;" onclick="DeleteItem(this)" />
+                </div>
+
+            </div>*@
+        <div style="margin-top:15px; text-align:right">
+            <input id="AddQuestion" class="btn btn-default" type="button" value="Dodaj nowy wyraz" onclick="addNewWord()" />
+
+            <input type="submit" value="Utwórz zadanie" class="btn btn-success" onclick="CreateTask()" />
+        </div>
+
+        }
+
+<script type="text/javascript">
+        var draggables = document.querySelectorAll(".draggable");
+        var containers = document.querySelectorAll(".MyContainer");
+
+        draggables.forEach(draggable => {
+
+            draggable.addEventListener("dragstart", () => {
+                draggable.classList.add("dragging")
+
+            })
+
+            draggable.addEventListener("dragend", () => {
+                draggable.classList.remove("dragging");
+
+            })
+        })
+        containers.forEach(container => {
+
+        container.addEventListener("dragover", e => {
+            e.preventDefault();
+        const draggable = document.querySelector(".dragging")
+        const afterElement = getDragAfterElement(container, e.clientY)
+
+        if (afterElement == null) {
+
+            container.appendChild(draggable);
+            } else {
+
+            container.insertBefore(draggable, afterElement);
+            }
+        })
+    })
+
+        function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")]
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+                return {offset: offset, element: child }
+            } else {
+                return closest;
+            }
+
+
+        }, {offset: Number.NEGATIVE_INFINITY }).element
+
+    }
+
+        function addClassName() {
+        var iterator = 0;
+        $(".setName").each(function () {
+            this.setAttribute("name", "Names[" + iterator + "].Name")
+            iterator++;
+        });
+    }
+
+        function addNewWord() {
+        var tr = $("<tr />");
+        var contentTd = $("<td />");
+        var buttonTd = $("<td />");
+
+            tr.attr("draggable", "true").attr("class", "draggable").attr("tabindex", "0").attr("aria-dropeffect", "move").attr("aria-grabbed","false");
+
+        var button = $("<input />").attr("type", "button").attr("value", "Usuń wyraz").attr("class", "btn btn-danger");
+        var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control items setName").attr("placeholder", "Wyraz");
+
+        contentInput.val("");
+        contentTd.append(contentInput);
+        buttonTd.append(button);
+
+        button.attr("onclick", "DeleteItem(this)");
+        tr.append(contentTd);
+        tr.append(buttonTd);
+
+        $("#MyContainer").append(tr);
+
+        draggables = document.querySelectorAll(".draggable");
+
+        draggables.forEach(draggable => {
+
+            draggable.addEventListener("dragstart", () => {
+                draggable.classList.add("dragging")
+
+            })
+
+            draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("dragging")
+
+        })
+        })
+
+    }
+        function DeleteItem(div) {
+            $(div).parent().parent().remove();
+    }
+
+    function CreateTask() {
+        var iterator = 0;
+        $(".items").each(function () {
+            this.setAttribute("name", "Names[" + iterator + "].Name")
+            iterator++;
+        });
+    }
+
+
+   @* function addNewWord() {
+
+        var div = $("<div/>");
+        div.attr("style", "margin-right:10px")
+        var button = $("<input />").attr("type", "button").attr("value", "Usuń").attr("class", "btn btn-danger").attr("style", "margin-left: 5px;");
+
+        var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control items").attr("style", "width:150px; display:inline").attr("placeholder", "Wyraz");
+
+        contentInput.val("");
+        div.append(contentInput);
+        button.attr("onclick", "DeleteItem(this)");
+        div.append(button);
+        $("#Container").append(div);
+    }
+    function DeleteItem(div) {
+        $(div).parent().remove();
+    }
+
+
+*@
+</script>

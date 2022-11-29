@@ -1,0 +1,44 @@
+﻿@model SystemWspomaganiaNauczania.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Zarejestruj się </h2>
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+
+
+        <div class="col-md-10">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+
+        <div class="col-md-10">
+            <label for="Password" class="col-md-2 control-label">Hasło</label>
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+
+        <div class="col-md-10">
+            <label for="ConfirmPassword" class="col-md-2 control-label">Powtórz hasło</label>
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Zarejestruj sie" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

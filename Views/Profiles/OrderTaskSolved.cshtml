@@ -1,0 +1,51 @@
+﻿@model PagedList.IPagedList<SystemWspomaganiaNauczania.ViewModel.SolvedViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Rozwiązane zadania";
+}
+
+<h2>Rozwiązane zadania</h2>
+
+<div id="taskMenu">
+    <a href="/Profiles/OrderTaskSolved" id="selectedTaskMenu">
+        Ustaw w kolejności
+    </a>
+    <a href="/Profiles/GroupTaskSolved">
+        Grupowanie
+    </a>
+</div>
+<div class="container row" style="padding: 0; margin-top:50px;">
+
+    @foreach (var item in Model)
+    {
+        <div class="card col-md-3 list-group-item-heading " style="width:292px; padding:1%">
+            @if (item.OrderTask.Image != null && item.OrderTask.Image != "")
+            {
+                <img class="card-img-top center-block block d-block mx-auto" src="~/Images/@item.OrderTask.Image" alt="Card image" style=" width:100%; max-height: 201.469px; object-fit: cover;">
+            }
+            else
+            {
+                <img class="card-img-top" src="~/Images/brak-zdjecia.png" alt="Card image" style="width:100%">
+            }
+
+        <div class="card-body" style="padding:2%">
+            <h4 class="card-title">@item.OrderTask.Title</h4>
+            <h4 class="card-title">@item.OrderTask.Description</h4>
+            @if (item.Solved == true)
+            {
+
+                <h6 class="card-title" style="color:green">Pomyślnie rozwiązano zadanie</h6>
+
+            }
+            else
+            {
+                <h6 class="card-title" style="color:red">Nie udało się rozwiązać zadania</h6>
+            }
+            <a href="/OrderTasks/Solve/@item.OrderTask.ID" class="btn btn-success" style="float:right; margin-left:5px;">Jeszcze raz</a>
+            <a href="/OrderTasks/Details/@item.OrderTask.ID" class="btn btn-default" style="float: right; margin-left: 5px;">Szczegóły</a>
+
+        </div>
+        </div>
+    }
+</div>

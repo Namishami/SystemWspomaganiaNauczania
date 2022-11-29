@@ -1,0 +1,55 @@
+﻿@model PagedList.IPagedList<SystemWspomaganiaNauczania.Models.OrderTask>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Lista zadań";
+}
+
+<h2>Lista zadań</h2>
+
+
+@using (Html.BeginForm())
+{
+    <div class="container" style="padding: 0; margin-bottom: 20px;">
+        <div class="input-group" style="width: 97%">
+            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Wyszukaj" })
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i> Wyszukaj</button>
+            </div>
+        </div>
+    </div>
+}
+<div class="container row" style="padding: 0">
+    @foreach (var item in Model)
+    {
+        <div class="card col-md-3 list-group-item-heading " role="article" style="width:292px; padding:1%">
+            @if (item.Image != null && item.Image != "")
+            {
+                <img class="card-img-top center-block block d-block mx-auto" src="~/Images/@item.Image" alt="Card image" style=" width:100%; max-height: 201.469px; object-fit: cover;">
+            }
+            else
+            {
+                <img class="card-img-top" src="~/Images/brak-zdjecia.png" alt="Card image" style="width:100%">
+            }
+            <div class="card-body" style="padding:2%">
+                <h4 class="card-title">@item.Title</h4>
+                <p class="card-text">@item.Description</p>
+                <a href="/OrderTasks/Solve/@item.ID"  role="button" class="btn btn-success" style="float:right; margin-left:5px;">Rozwiąż </a>
+                <a href="/OrderTasks/Details/@item.ID"role="button" class="btn btn-default" style="float: right; margin-left: 5px;">Szczegóły </a>
+                @if (Context.User.IsInRole("Admin"))
+                {
+                    <a href="/OrderTasks/Delete/@item.ID" role="button" class="btn btn-danger" style="float:right">Usuń </a>
+                }
+              
+            </div>
+        </div>
+    }
+</div>
+
+    Strona: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+

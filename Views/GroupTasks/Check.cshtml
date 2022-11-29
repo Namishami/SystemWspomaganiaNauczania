@@ -1,0 +1,44 @@
+﻿@model SystemWspomaganiaNauczania.Models.GroupTask
+
+@{
+    ViewBag.Title = "Podsumowanie";
+}
+
+<h2>Rozwiązałeś zadanie o to wynik</h2>
+
+<div class="row" style="margin-top:50px;">
+
+    <div class="col-md-4">
+        @if (Model.Image != null && Model.Image != "")
+        {
+            <img class="card-img-top" src="~/Images/@Model.Image" alt="Card image" style="max-width:100%">
+
+        }
+        else
+        {
+            <img class="card-img-top" src="~/Images/brak-zdjecia.png" alt="Card image" style="width: 100%;">
+        }
+
+    </div>
+
+    <div class="col-md-8" style="margin-top:50px;">
+        <h3 id="headResult">Nazwa zadania: @Model.Title</h3>
+        <h4 style="margin:0;">@Model.Description</h4>
+        @if (ViewBag.result == true)
+        {
+            <h4 style="color:green">Zadanie zostało rozwiązane pomyślnie! </h4>
+        }
+        else
+        {
+            <h4 style="color:red">Niestety nie udało Ci się pomyślnie rozwiązać zadania! Spróbuj ponownie </h4>
+        }
+    </div>
+    <div style="text-align:right; margin-top:30%">
+        @if (ViewBag.result == false)
+        {
+            @Html.ActionLink("Jeszcze raz", "Solve", "GroupTasks", new { id = Model.ID }, new { @class = "btn btn-success" })
+        }
+        @Html.ActionLink("Rozwiązane zadania", "GroupTaskSolved", "Profiles", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("Powrót", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>

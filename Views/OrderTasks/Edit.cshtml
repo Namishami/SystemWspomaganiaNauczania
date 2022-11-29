@@ -1,0 +1,189 @@
+﻿@model SystemWspomaganiaNauczania.Models.OrderTask
+
+@{
+    ViewBag.Title = "Edycja";
+}
+
+<h2>Edytuj zadanie</h2>
+
+@using (Html.BeginForm("Edit", "OrderTasks", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    <div class="row">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="col-md-4">
+
+                <div style="padding: 10px;">
+                    <label for="Title">Nazwa </label>
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+                </div>
+                <div style="padding: 10px;">
+                    <label for="Description">Krótki opis</label>
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="padding: 10px;">
+                    <label for="image">Zdjęcie</label>
+                    <input type="file" name="imageOrderTaskFile" id="imageTest" style="padding: 6px 0px;" />
+                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <h2>Wyrazy do uporządkowania</h2>
+
+    <div class="container">
+        <table class="table table-striped" id="myTable">
+            <tbody class="MyContainer" id="MyContainer">
+                @foreach (var item in ViewBag.taskWords)
+                {
+                    <tr draggable="true" class="draggable" tabindex="0" aria-dropeffect="move" aria-grabbed="false">
+                        <td><input type="text" class="form-control items setName" value="@item.Name" /> </td>
+                        <td>
+                            <input type="Button" class="btn btn-danger" onclick="DeleteItem(this)" value="Usuń wyraz" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="form-group" style="padding-left:25px;">
+        <div class="col-md-offset-2 col-md-10" style="margin-left: 0; margin-top: 15px;">
+            <input type="submit" value="Zapisz zmiany" onclick="addClassName()" class="btn btn-success" />
+            <input type="button" value="Dodaj nowy wyraz" onclick="addNewWord()" class="btn btn-info" />
+            @Html.ActionLink("Powrót", "MyOrderTask", "Home", null, new { @class = "btn btn-default" })
+
+        </div>
+    </div>
+
+</div>
+}
+
+
+<script type="text/javascript">
+
+   
+        var draggables = document.querySelectorAll(".draggable");
+        var containers = document.querySelectorAll(".MyContainer");
+
+        draggables.forEach(draggable => {
+
+            draggable.addEventListener("dragstart", () => {
+                draggable.classList.add("dragging")
+                dragable.setAttribute("aria-grabbed", "true");
+               
+            })
+
+            draggable.addEventListener("dragend", () => {
+                draggable.classList.remove("dragging");
+                dragable.setAttribute("aria-grabbed", "false");
+
+            })
+        })
+   
+    
+    containers.forEach(container => {
+        container.setAttribute("aria-dropeffect", "execute");
+        container.addEventListener("dragover", e => {
+            e.preventDefault();
+            const draggable = document.querySelector(".dragging")
+            const afterElement = getDragAfterElement(container, e.clientY)
+            
+            if (afterElement == null) {
+                
+                container.appendChild(draggable);
+            } else {
+
+                container.insertBefore(draggable, afterElement);
+            }
+
+
+        })
+    })
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")]
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child }
+            } else {
+                return closest;
+            }
+
+
+        }, { offset: Number.NEGATIVE_INFINITY }).element
+
+    }
+
+    function addClassName() {
+        var iterator = 0;
+        $(".setName").each(function () {
+            this.setAttribute("name", "Names[" + iterator + "].Name")
+            iterator++;
+        });
+    }
+   
+    function addNewWord() {
+        var tr = $("<tr/>");
+        var contentTd = $("<td/>");
+        var buttonTd = $("<td/>");
+
+        tr.attr("draggable", "true").attr("class", "draggable");
+        var button = $("<input />").attr("type", "button").attr("value", "Usuń wyraz").attr("class", "btn btn-danger");
+        var contentInput = $("<input />").attr("type", "textbox").attr("class", "form-control items setName").attr("placeholder", "Wyraz");
+
+        contentInput.val("");
+        contentTd.append(contentInput);
+        buttonTd.append(button);
+
+        button.attr("onclick", "DeleteItem(this)");
+        tr.append(contentTd);
+        tr.append(buttonTd);
+
+        $("#MyContainer").append(tr);
+        
+        draggables = document.querySelectorAll(".draggable");
+
+        draggables.forEach(draggable => {
+
+            draggable.addEventListener("dragstart", () => {
+                draggable.classList.add("dragging")
+                
+            })
+
+            draggable.addEventListener("dragend", () => {
+                draggable.classList.remove("dragging")
+
+            })
+        })
+
+    }
+
+    function DeleteItem(div) {
+        $(div).parent().parent().remove();
+    }
+</script>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

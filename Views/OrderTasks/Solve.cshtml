@@ -1,0 +1,84 @@
+﻿@model SystemWspomaganiaNauczania.ViewModel.OrderTaskWordViewModel
+@{
+    ViewBag.Title = "Rozwiaz zadanie";
+}
+
+<h2>Ustaw w odpowiedniej kolejności</h2>
+
+<hr />
+@using (Html.BeginForm("Solve", "OrderTasks", FormMethod.Post))
+{
+    <input type="hidden" readonly="readonly" value="@ViewBag.TaskID" />
+
+    <div class="MyContainer"  id="MyContainer" aria-dropeffect="execute">
+
+        @foreach (var item in Model.Names)
+        {
+            <input type="text" readonly="readonly" role="button" aria-grabbed="false" draggable="true" class="btn btn-default setName draggable" value="@item.Name" />
+        }
+
+    </div>
+    <div style="text-align:right; margin-right:15% ">
+        <input type="submit" class="btn btn-success" onclick="addClassName()" value="Sprawdź" />
+    </div>
+}
+
+<script type="text/javascript">
+
+    var draggables = document.querySelectorAll(".draggable");
+    var containers = document.querySelectorAll(".MyContainer");
+
+    draggables.forEach(draggable => {
+
+       
+        draggable.addEventListener("dragstart", () => {
+            draggable.classList.add("dragging")
+          
+        })
+
+        draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("dragging")
+       
+
+        })
+    })
+
+    containers.forEach(container => {
+        container.addEventListener("dragover", e => {
+            
+            e.preventDefault();
+            const draggable = document.querySelector(".dragging")
+            const afterElement = getDragAfterElement(container, e.clientY)
+            if (afterElement == null) {
+                container.appendChild(draggable);
+            } else {
+                container.insertBefore(draggable, afterElement);
+            }
+
+        })
+    })
+
+    function getDragAfterElement(container, y) {
+
+        const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")]
+        return draggableElements.reduce((closest, child) => {
+
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child }
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element
+    }
+
+    function addClassName() {
+        var iterator = 0;
+        $(".setName").each(function () {
+            this.setAttribute("name", "Names[" + iterator + "].Name")
+            iterator++;
+        });
+    }
+</script>

@@ -1,0 +1,40 @@
+﻿@model SystemWspomaganiaNauczania.Models.GroupTask
+
+@{
+    ViewBag.Title = "Usuń zadanie";
+}
+<h2>Usuń zadanie</h2>
+<div>
+    <hr />
+    <div class="container dl-horizontal">
+
+        <div class="row">
+            <div class="col-sm-4" style=" padding: 0; margin-bottom: 20px;">
+
+                @if (Model.Image != null && Model.Image != "")
+                {
+                    <img class="card-img-top" src="~/Images/@Model.Image" alt="Card image" style="max-width:100%">
+                }
+                else
+                {
+                    <img class="card-img-top" src="~/Images/brak-zdjecia.png" alt="Card image" style="width: 100%;">
+                }
+            </div>
+            <div class="col-sm-4" style="margin-left:50px; margin-top:70px;">
+                <div>
+                    <h2 style="margin:0;"> @Html.DisplayFor(model => model.Title)</h2>
+                    <h3>@Html.DisplayFor(model => model.Description)</h3>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <input type="submit" value="Delete" class="btn btn-danger" style="float:right; margin-left:5px; margin-top:50%">
+                        @Html.ActionLink("Powrót", "Index", null, new { @class = "btn btn-default", @style = "float:right; margin-left:5px; margin-top:50%" })
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

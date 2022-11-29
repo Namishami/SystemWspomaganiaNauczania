@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Strona główna";
+}
+
+<div class="jumbotron">
+    <h2>Witaj na naszej stronie!</h2>
+
+    <h4>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p>
+                Cieszymy się, że korzystasz z naszych usług. Jest to strona przeznaczona do wspomagania nauczania poprzez rozwiązywanie zadań.
+                Teraz możesz w pełni korzystać z rozwiązań oferowanych przez naszą stronę. Życzymy miłej zabawy.
+                <div><img src="~/Images/mainPage.png" alt="Obrazek strony głównej" /></div>
+
+            </p>
+        }
+        else
+        {
+            <p>
+                Cieszymy się, że korzystasz z naszych usług. Jest to strona przeznaczona do wspomagania nauczanie poprzez rozwiązywanie zadań.
+                Utwórz nowe konto lub zaloguj się aby mieć możliwość sprawdzenia jakie ciekawe zadania czekają na Ciebie.
+
+            </p>
+        }
+    </h4>
+
+</div>
+

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Zadaniowo.pl</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body id="body" >
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Strona główna", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            
+                @if (Request.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown1" tabindex="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                                Ustaw w kolejności
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                <li>@Html.ActionLink("Wszystkie zadania", "Index", "OrderTasks", new { @class = "dropdown-item" }, null)</li>
+                                <li>@Html.ActionLink("Nowe zadanie", "Create", "OrderTasks", new { @class = "dropdown-item" }, null)</li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown2"  tabindex="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                                Grupowanie
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                <li>@Html.ActionLink("Wszystkie zadania", "Index", "GroupTasks", new { @class = "dropdown-item" }, null)</li>
+                                <li>@Html.ActionLink("Nowe zadanie", "Create", "GroupTasks", new { @class = "dropdown-item" }, null)</li>
+                            </ul>
+                        </li>
+
+
+
+                    </ul>
+                }
+                @Html.Partial("_LoginPartial")
+            
+        </div>
+    </div>
+
+    <div class="container body-content">
+        
+        @RenderBody();
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Norbert Księżopolski</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/Scripts.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script>
+    window.onload = (event) => {
+        
+        var FontName = '@System.Configuration.ConfigurationManager.AppSettings["FontName"]';
+        var FontColor = '@System.Configuration.ConfigurationManager.AppSettings["FontColor"]';
+        var FontSize = '@System.Configuration.ConfigurationManager.AppSettings["FontSize"]';
+        //console.log(FontName);
+        //console.log(FontColor);
+        //console.log(FontSize);
+        var body = document.getElementsByTagName("body").body;
+        console.log(body);
+        body.style.fontFamily = FontName;  
+        body.style.color = FontColor;
+        body.style.fontSize = FontSize;
+    }
+
+
+
+
+
+    @*var nameFont = document.getElementById("nameFont").value;
+    var sizeFont = document.getElementById("sizeFont").value;
+    var colorFont = document.getElementById("colorFont").value;
+
+    var sizePixels = sizeFont+"px"
+
+    var body = document.getElementById("body");
+    console.log(body)
+    body.style.fontSize = sizePixels;
+    body.style.fontFamily = nameFont;
+    body.style.color = colorFont;
+
+    var radioButtons = document.querySelectorAll('input[class="radioInput"]');
+
+
+    radioButtons.forEach(radio => {
+
+        if (radio.getAttribute("value") == nameFont) {
+            radio.setAttribute("checked", "true");
+            radio.setAttribute("aria-checked", "true");
+        }
+        if (radio.getAttribute("value") == sizeFont) {
+            radio.setAttribute("checked", "true");
+            radio.setAttribute("aria-checked", "true");
+        }
+        if (radio.getAttribute("value") == colorFont) {
+            radio.setAttribute("checked", "true");
+            radio.setAttribute("aria-checked", "true");
+        }
+
+    })
+
+    }*@
+</script>
