@@ -11,7 +11,6 @@ namespace SystemWspomaganiaNauczania.Models
         public int Size { get; set; }
         public string FontFace { get; set; }
         public string Color { get; set; }
-        public string asd { get; set; }
         public virtual Profile Profile { get; set; }
     }
 }

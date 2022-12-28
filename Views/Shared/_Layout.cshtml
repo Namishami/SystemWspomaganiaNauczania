@@ -30,7 +30,11 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                                 <li>@Html.ActionLink("Wszystkie zadania", "Index", "OrderTasks", new { @class = "dropdown-item" }, null)</li>
-                                <li>@Html.ActionLink("Nowe zadanie", "Create", "OrderTasks", new { @class = "dropdown-item" }, null)</li>
+                                @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+                                {
+                                    <li>@Html.ActionLink("Nowe zadanie", "Create", "OrderTasks", new { @class = "dropdown-item" }, null)</li>
+                                }
+                                
                             </ul>
                         </li>
 
@@ -41,7 +45,11 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
                                 <li>@Html.ActionLink("Wszystkie zadania", "Index", "GroupTasks", new { @class = "dropdown-item" }, null)</li>
-                                <li>@Html.ActionLink("Nowe zadanie", "Create", "GroupTasks", new { @class = "dropdown-item" }, null)</li>
+                                @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+                                {
+                                    <li>@Html.ActionLink("Nowe zadanie", "Create", "GroupTasks", new { @class = "dropdown-item" }, null)</li>
+                                }
+
                             </ul>
                         </li>
 
@@ -56,7 +64,7 @@
 
     <div class="container body-content">
         
-        @RenderBody();
+        @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Norbert Księżopolski</p>
@@ -71,56 +79,50 @@
 </html>
 
 <script>
+    var loggedUser = "@HttpContext.Current.User.Identity.Name";
+    console.log(loggedUser);
     window.onload = (event) => {
-        
+        if (loggedUser != "") { 
         var FontName = '@System.Configuration.ConfigurationManager.AppSettings["FontName"]';
         var FontColor = '@System.Configuration.ConfigurationManager.AppSettings["FontColor"]';
         var FontSize = '@System.Configuration.ConfigurationManager.AppSettings["FontSize"]';
-        //console.log(FontName);
-        //console.log(FontColor);
-        //console.log(FontSize);
+
         var body = document.getElementsByTagName("body").body;
-        console.log(body);
-        body.style.fontFamily = FontName;  
+
+        body.style.fontFamily = FontName;
         body.style.color = FontColor;
         body.style.fontSize = FontSize;
+
+        var hTags = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+        hTags.forEach(h => {
+            h.style.fontFamily = FontName;
+            h.style.color = FontColor;
+            if (h.style.fontSize <= FontSize) {
+                h.style.fontSize = FontSize;
+            }
+
+        })
+        var pTag = document.querySelectorAll("p");
+        pTag.forEach(p => {
+            p.style.fontFamily = FontName;
+            p.style.color = FontColor;
+            p.style.fontSize = FontSize;
+        })
+
+
+        var aTag = document.querySelectorAll("a");
+        aTag.forEach(a => {
+            a.style.fontFamily = FontName;
+            a.style.color = FontColor;
+            a.style.fontSize = FontSize;
+        })
+
+        var inputTag = document.querySelectorAll("input");
+        inputTag.forEach(input => {
+            input.style.fontFamily = FontName;
+            input.style.color = FontColor;
+            input.style.fontSize = FontSize;
+        })
+        }
     }
-
-
-
-
-
-    @*var nameFont = document.getElementById("nameFont").value;
-    var sizeFont = document.getElementById("sizeFont").value;
-    var colorFont = document.getElementById("colorFont").value;
-
-    var sizePixels = sizeFont+"px"
-
-    var body = document.getElementById("body");
-    console.log(body)
-    body.style.fontSize = sizePixels;
-    body.style.fontFamily = nameFont;
-    body.style.color = colorFont;
-
-    var radioButtons = document.querySelectorAll('input[class="radioInput"]');
-
-
-    radioButtons.forEach(radio => {
-
-        if (radio.getAttribute("value") == nameFont) {
-            radio.setAttribute("checked", "true");
-            radio.setAttribute("aria-checked", "true");
-        }
-        if (radio.getAttribute("value") == sizeFont) {
-            radio.setAttribute("checked", "true");
-            radio.setAttribute("aria-checked", "true");
-        }
-        if (radio.getAttribute("value") == colorFont) {
-            radio.setAttribute("checked", "true");
-            radio.setAttribute("aria-checked", "true");
-        }
-
-    })
-
-    }*@
 </script>

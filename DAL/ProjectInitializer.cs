@@ -40,7 +40,7 @@ namespace SystemWspomaganiaNauczania.DAL
             {
                 Size = 12,
                 FontFace = "Times New Roman",
-                Color = "black",
+                Color = "Gray",
                 Profile= profile,
             };
             Configuration configuration = WebConfigurationManager.OpenWebConfiguration("~");

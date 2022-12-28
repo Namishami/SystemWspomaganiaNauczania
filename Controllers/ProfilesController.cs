@@ -33,7 +33,7 @@ namespace SystemWspomaganiaNauczania.Controllers
     
         public ActionResult Options()
         {
-            var profile = db.Profiles.Single(p=>p.Email==User.Identity.Name);
+            var profile = db.Profiles.FirstOrDefault(p=>p.Email==User.Identity.Name);
             if (profile == null)
                 throw new NullProfileException("Nie znaleziono zalogowanego użytkownika");
             var style = db.FontStyles.FirstOrDefault(s => s.Profile.Email == profile.Email);
@@ -45,7 +45,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         {
             if (ModelState.IsValid)
             {
-                var profile = db.Profiles.Single(p => p.Email == User.Identity.Name);
+                var profile = db.Profiles.FirstOrDefault(p => p.Email == User.Identity.Name);
                 if (profile == null)
                     throw new NullProfileException("Nie znaleziono zalogowanego użytkownika");
 

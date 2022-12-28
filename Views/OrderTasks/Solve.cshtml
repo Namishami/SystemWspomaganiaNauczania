@@ -14,7 +14,7 @@
 
         @foreach (var item in Model.Names)
         {
-            <input type="text" readonly="readonly" role="button" aria-grabbed="false" draggable="true" class="btn btn-default setName draggable" value="@item.Name" />
+            <input type="text" readonly="readonly" role="button" aria-grabbed="false"  draggable="true" class="btn btn-default setName draggable" value="@item.Name" />
         }
 
     </div>
@@ -29,23 +29,36 @@
     var containers = document.querySelectorAll(".MyContainer");
 
     draggables.forEach(draggable => {
-
-       
         draggable.addEventListener("dragstart", () => {
             draggable.classList.add("dragging")
-          
         })
 
         draggable.addEventListener("dragend", () => {
             draggable.classList.remove("dragging")
-       
+        })
 
+        draggable.addEventListener("keyup", (event) => {
+            var keyName = event.key;
+            if (keyName == 'p') {
+                removeDraggingClass()
+                draggable.classList.add("dragging")
+                draggable.setAttribute("aria-grabbed", "true")
+                draggable.setAttribute("aria-dropeffect", "move")
+            } 
+        })
+
+        draggable.addEventListener("keyup", (event) => {
+            var key = event.key;
+            if (key == 'd') {
+                const elementToMove = document.getElementsByClassName("dragging")[0];
+                draggable.after(elementToMove);
+                elementToMove.classList.remove("dragging")
+            }
         })
     })
 
     containers.forEach(container => {
         container.addEventListener("dragover", e => {
-            
             e.preventDefault();
             const draggable = document.querySelector(".dragging")
             const afterElement = getDragAfterElement(container, e.clientY)
@@ -73,7 +86,12 @@
             }
         }, { offset: Number.NEGATIVE_INFINITY }).element
     }
-
+    function removeDraggingClass() {
+        draggables.forEach(draggable => {
+            draggable.classList.remove("dragging");
+        })
+    }
+  
     function addClassName() {
         var iterator = 0;
         $(".setName").each(function () {

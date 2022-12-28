@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Configuration;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -82,8 +86,11 @@ namespace SystemWspomaganiaNauczania.Controllers
             {
                 case SignInStatus.Success:
                     var style = db.FontStyles.FirstOrDefault(s => s.Profile.Email == model.Email);
+                    var profile = db.Profiles.FirstOrDefault(p => p.Email == model.Email);
                     if (style == null)
-                        SetDefaultStyle();
+                        SetDefaultStyleForUser(profile);
+                    else
+                        SetStyleForUser(style);
                     return RedirectToLocal(returnUrl);
                     break;
                 case SignInStatus.LockedOut:
@@ -96,11 +103,62 @@ namespace SystemWspomaganiaNauczania.Controllers
                     return View(model);
             }
         }
-        private void SetDefaultStyle()
+
+        private void SetStyleForUser(Models.FontStyle fontStyle)
         {
-            
-            var result = JavaScript("script.js");
-            
+            Configuration configuration = WebConfigurationManager.OpenWebConfiguration("~");
+            AppSettingsSection appSettingsSection = (AppSettingsSection)configuration.GetSection("appSettings");
+            KeyValueConfigurationCollection settings = appSettingsSection.Settings;
+
+            var allKeys = settings.AllKeys;
+
+            if (!allKeys.Any(p => p.Equals("FontName")) || !allKeys.Any(p => p.Equals("FontSize")) || !allKeys.Any(p => p.Equals("FontColor")))
+            {
+                settings.Add("FontName", fontStyle.FontFace);
+                settings.Add("FontSize", fontStyle.Size + "px");
+                settings.Add("FontColor", fontStyle.Color);
+            }
+            else
+            {
+                settings["FontName"].Value = fontStyle.FontFace;
+                settings["FontSize"].Value = fontStyle.Size + "px";
+                settings["FontColor"].Value = fontStyle.Color;
+
+            }
+            configuration.Save();
+        }
+
+        private void SetDefaultStyleForUser(Profile profile)
+        {
+            var fontStyle = new Models.FontStyle()
+            {
+                FontFace = "Arial",
+                Color = "Gray",
+                Size = 18,
+                Profile = profile
+            };
+            Configuration configuration = WebConfigurationManager.OpenWebConfiguration("~");
+            AppSettingsSection appSettingsSection = (AppSettingsSection)configuration.GetSection("appSettings");
+            KeyValueConfigurationCollection settings = appSettingsSection.Settings;
+
+            var allKeys = settings.AllKeys;
+
+            if (!allKeys.Any(p => p.Equals("FontName")) || !allKeys.Any(p => p.Equals("FontSize")) || !allKeys.Any(p => p.Equals("FontColor")))
+            {
+                settings.Add("FontName", fontStyle.FontFace);
+                settings.Add("FontSize", fontStyle.Size + "px");
+                settings.Add("FontColor", fontStyle.Color);
+            }
+            else
+            {
+                settings["FontName"].Value = fontStyle.FontFace;
+                settings["FontSize"].Value = fontStyle.Size + "px";
+                settings["FontColor"].Value = fontStyle.Color;
+
+            }
+            configuration.Save();
+            db.FontStyles.Add(fontStyle);
+            db.SaveChanges();
         }
         //
         // GET: /Account/VerifyCode
@@ -175,10 +233,9 @@ namespace SystemWspomaganiaNauczania.Controllers
                         FirstName = "Undefinded",
                         LastName = "Undefinded"
                     };
-                    
+                    SetDefaultStyleForUser(profile);
                     context.Profiles.Add(profile);
                     userManager.AddToRole(user.Id, "User");
-
                     context.SaveChanges();
 
 

@@ -15,9 +15,11 @@
         <div id="wordContainer" class="wordContainers">
             @foreach (var item in Model.Wordslist1)
             {
-                <input type="text" readonly="readonly" role="button"  aria-grabbed="false" aria-labelledby="WordLabel"  draggable="true" style="cursor:move; margin:5px;" class="btn btn-default drag " value="@item.Name" />
-
-
+                @*<label id="WordLabel" style="display:none">Wyraz do przeniesienia: @item.Name </label>*@
+               
+                    <input type="text" readonly="readonly" role="button" aria-grabbed="false" aria-labelledby="WordLabel"aria-description="Wyraz do przeniesienia @item.Name" draggable="true" style="cursor:move; margin:5px;" class="btn btn-default drag "value="@item.Name" />
+              
+                
             }
         </div>
         @if (Model.AreaName[0] != null)
@@ -62,8 +64,8 @@
 
 <script type="text/javascript">
 
-    var draggables = document.querySelectorAll(".drag");
-    var containers = document.querySelectorAll(".wordContainers");
+    var draggables = document.querySelectorAll(".drag")
+    var containers = document.querySelectorAll(".wordContainers")
 
     draggables.forEach(draggable => {
 
@@ -78,7 +80,16 @@
             draggable.removeAttribute("aria-dropeffect", "move")
             draggable.setAttribute("aria-grabbed", "false")
         })
-     
+
+        draggable.addEventListener("keyup", (event) => {
+            var keyName = event.key;
+            if (keyName == 'p') {
+                draggable.classList.add("dragging")
+                setButtonDissabled(draggables)
+                draggable.setAttribute("aria-grabbed", "true")
+                draggable.setAttribute("aria-dropeffect", "move")
+            }
+        })
     })
 
     containers.forEach(container => {
@@ -105,9 +116,39 @@
                
             }
             container.appendChild(draggable);
-
+        })
+        container.addEventListener("keyup", (event) => {
+            var keyName = event.key;
+            var keyCode = event.code;
+            if (keyName == 'd') {
+                var element = document.getElementsByClassName("dragging")[0]
+                container.appendChild(element);
+                console.log(element)
+                element.classList.remove("dragging");
+                /*document.getElementById("wordContainer").firstChild.focus();*/
+                unDissabled(draggables)
+                draggable.removeAttribute("aria-dropeffect", "move")
+                draggable.setAttribute("aria-grabbed", "false")
+                
+            }
         })
     })
+
+    function setButtonDissabled(toDissable) {
+        toDissable.forEach(toDiss => {
+            if (!toDiss.classList.contains("dragging")) {
+                toDiss.disabled = true;
+            }
+        })
+    }
+    function unDissabled(toDissable) {
+        toDissable.forEach(toDiss => {
+            if (!toDiss.classList.contains("dragging")) {
+                toDiss.disabled = false;
+            }
+        })
+    }
+
 
     function addClassName() {
         var iterator = 0;
@@ -128,7 +169,4 @@
             iterator++;
         });
     }
-
-
-
 </script>
