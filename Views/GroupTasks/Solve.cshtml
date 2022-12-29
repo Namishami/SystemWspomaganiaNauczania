@@ -81,13 +81,17 @@
             draggable.setAttribute("aria-grabbed", "false")
         })
 
-        draggable.addEventListener("keyup", (event) => {
+        draggable.addEventListener("keydown", (event) => {
             var keyName = event.key;
-            if (keyName == 'p') {
-                draggable.classList.add("dragging")
-                setButtonDissabled(draggables)
-                draggable.setAttribute("aria-grabbed", "true")
-                draggable.setAttribute("aria-dropeffect", "move")
+            if (keyName == 'Control') {
+                draggable.addEventListener("keydown", (event) => {
+                    if (event.key =='q') {
+                        draggable.classList.add("dragging")
+                        setButtonDissabled(draggables)
+                        draggable.setAttribute("aria-grabbed", "true")
+                        draggable.setAttribute("aria-dropeffect", "move")
+                    }
+                })
             }
         })
     })
@@ -117,19 +121,22 @@
             }
             container.appendChild(draggable);
         })
-        container.addEventListener("keyup", (event) => {
+        container.addEventListener("keydown", (event) => {
             var keyName = event.key;
             var keyCode = event.code;
-            if (keyName == 'd') {
-                var element = document.getElementsByClassName("dragging")[0]
-                container.appendChild(element);
-                console.log(element)
-                element.classList.remove("dragging");
-                /*document.getElementById("wordContainer").firstChild.focus();*/
-                unDissabled(draggables)
-                draggable.removeAttribute("aria-dropeffect", "move")
-                draggable.setAttribute("aria-grabbed", "false")
-                
+            if (keyName == 'Control') {
+                container.addEventListener("keydown", (event) => {
+                    if (event.key == "x") {
+                    var element = document.getElementsByClassName("dragging")[0]
+                    container.appendChild(element);
+                    console.log(element)
+                    element.classList.remove("dragging");
+                    /*document.getElementById("wordContainer").firstChild.focus();*/
+                    unDissabled(draggables)
+                    draggable.removeAttribute("aria-dropeffect", "move")
+                        draggable.setAttribute("aria-grabbed", "false")
+                    }
+                })
             }
         })
     })

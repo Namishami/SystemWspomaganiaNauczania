@@ -12,6 +12,9 @@ namespace SystemWspomaganiaNauczania.Controllers
             var profile = db.Profiles.FirstOrDefault();
             return View();
         }
-
+        public ActionResult InformationPage()
+        {
+            return View();
+        }
     }
 }

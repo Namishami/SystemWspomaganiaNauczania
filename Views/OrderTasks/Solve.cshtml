@@ -37,22 +37,34 @@
             draggable.classList.remove("dragging")
         })
 
-        draggable.addEventListener("keyup", (event) => {
+        draggable.addEventListener("keydown", (event) => {
             var keyName = event.key;
-            if (keyName == 'p') {
-                removeDraggingClass()
-                draggable.classList.add("dragging")
-                draggable.setAttribute("aria-grabbed", "true")
-                draggable.setAttribute("aria-dropeffect", "move")
+            console.log(keyName)
+            if (keyName == "Control") {
+                draggable.addEventListener("keydown", (event) => {
+                    if (event.key == 'q') {
+                        removeDraggingClass()
+                        draggable.classList.add("dragging")
+                        draggable.setAttribute("aria-grabbed", "true")
+                        draggable.setAttribute("aria-dropeffect", "move")
+                    }
+                })
             } 
         })
 
-        draggable.addEventListener("keyup", (event) => {
-            var key = event.key;
-            if (key == 'd') {
-                const elementToMove = document.getElementsByClassName("dragging")[0];
-                draggable.after(elementToMove);
-                elementToMove.classList.remove("dragging")
+        draggable.addEventListener("keydown", (event) => {
+            var keyName = event.key;
+            console.log(keyName)
+            if (keyName == "Control") {
+                draggable.addEventListener("keydown", (event) => {
+                    if (event.key == 'x') {
+                        if (document.getElementsByClassName("dragging") != null && document.getElementsByClassName("dragging").length > 0) {
+                            const elementToMove = document.getElementsByClassName("dragging")[0];
+                            draggable.after(elementToMove);
+                            elementToMove.classList.remove("dragging")
+                        }
+                    }
+                })
             }
         })
     })
