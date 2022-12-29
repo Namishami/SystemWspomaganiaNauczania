@@ -1,0 +1,134 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+   
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.draggable {
+    cursor: move;
+    display: block;
+    margin-top:1rem;
+}
+.MyContainer {
+    margin: 1rem 38%;
+  
+}
+#SearchString {
+    max-width: 100% !important;
+}
+
+#CommentInput {
+    max-width: 100% !important;
+}
+
+
+#addComment:hover {
+    cursor: pointer;
+}
+
+#commentContent {
+    padding: 10px;
+    white-space: normal !important;
+    word-wrap: break-word;
+}
+.draggable.dragging{
+    opacity:50%;
+}
+.styleContainers {
+    border: 1px solid black;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 150px;
+    display: block;
+}
+#wordContainer{
+    padding:10px;
+    margin-bottom:20px;
+}
+#submitDiv{
+    text-align:center;
+}
+
+.areaName {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    margin-top:30%;
+    margin-left:70%;
+    
+}
+div.buttons > *{
+    margin-right:5px;
+}
+
+#taskMenu a {
+    color:black;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-radius: 5px 5px 0px 0px;
+    padding: 4px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+#selectedTaskMenu {
+    background-color: #606060;
+    color: white !important;
+}
+#taskMenu {
+    border-bottom: 1px solid #606060;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+a, a:hover {
+    color: green;
+}
+
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+a {
+    background-color: transparent;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+user agent stylesheet
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
