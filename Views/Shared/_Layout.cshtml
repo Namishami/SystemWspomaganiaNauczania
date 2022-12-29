@@ -8,7 +8,7 @@
     @Scripts.Render("https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body id="body" >
+<body id="body">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -64,7 +64,7 @@
     </div>
 
     <div class="container body-content">
-        
+
         @RenderBody()
         <hr />
         <footer>
@@ -83,7 +83,7 @@
     var loggedUser = "@HttpContext.Current.User.Identity.Name";
     console.log(loggedUser);
     window.onload = (event) => {
-        if (loggedUser != "") { 
+        if (loggedUser != "") {
         var FontName = '@System.Configuration.ConfigurationManager.AppSettings["FontName"]';
         var FontColor = '@System.Configuration.ConfigurationManager.AppSettings["FontColor"]';
         var FontSize = '@System.Configuration.ConfigurationManager.AppSettings["FontSize"]';

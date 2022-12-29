@@ -29,22 +29,22 @@
                 <img class="card-img-top" src="~/Images/brak-zdjecia.png" alt="Card image" style="width:100%">
             }
 
-        <div class="card-body" style="padding:2%">
-            <h4 class="card-title">@item.GroupTask.Title</h4>
-            <h4 class="card-title">@item.GroupTask.Description</h4>
-            @if (item.Solved == true)
-            {
+            <div class="card-body" style="padding:2%">
+                <h4 class="card-title">@item.GroupTask.Title</h4>
+                <h4 class="card-title">@item.GroupTask.Description</h4>
+                @if (item.Solved == true)
+                {
 
-                <h6 class="card-title" style="color:green">Pomyślnie rozwiązano zadanie</h6>
+                    <h6 class="card-title" style="color:green">Pomyślnie rozwiązano zadanie</h6>
 
-            }
-            else
-            {
-                <h6 class="card-title" style="color:red">Nie udało się rozwiązać zadania</h6>
-            }
-            <a href="/OrderTasks/Solve/@item.GroupTask.ID" class="btn btn-success" style="float:right; margin-left:5px;">Jeszcze raz</a>
-            <a href="/OrderTasks/Details/@item.GroupTask.ID" class="btn btn-default" style="float: right; margin-left: 5px;">Szczegóły</a>
-        </div>
+                }
+                else
+                {
+                    <h6 class="card-title" style="color:red">Nie udało się rozwiązać zadania</h6>
+                }
+                <a href="/OrderTasks/Solve/@item.GroupTask.ID" class="btn btn-success" style="float:right; margin-left:5px;">Jeszcze raz</a>
+                <a href="/OrderTasks/Details/@item.GroupTask.ID" class="btn btn-default" style="float: right; margin-left: 5px;">Szczegóły</a>
+            </div>
         </div>
     }
 </div>

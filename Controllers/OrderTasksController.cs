@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,7 +15,7 @@ namespace SystemWspomaganiaNauczania.Controllers
     public class OrderTasksController : Controller
     {
         private ProjectContext db = new ProjectContext();
-     
+
 
         // GET: OrderTasks
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -26,13 +25,9 @@ namespace SystemWspomaganiaNauczania.Controllers
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             if (searchString != null)
-            {
                 page = 1;
-            }
             else
-            {
                 searchString = currentFilter;
-            }
 
             ViewBag.CurrentFilter = searchString;
 
@@ -40,9 +35,7 @@ namespace SystemWspomaganiaNauczania.Controllers
 
             var tempOrderTask = db.OrderTasks.Select(p => p);
             if (!String.IsNullOrEmpty(searchString))
-            {
                 tempOrderTask = tempOrderTask.Where(s => s.Title.Contains(searchString));
-            }
 
             switch (sortOrder)
             {
@@ -161,7 +154,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (orderTaskWordViewModel.Names.All(w=>w.Name == null))
+                if (orderTaskWordViewModel.Names.All(w => w.Name == null))
                 {
                     TempData["ErrorMessage"] = "Nie dodano żadnego wyrazu";
                     return RedirectToAction("CreateNextStep", ID);
@@ -219,7 +212,7 @@ namespace SystemWspomaganiaNauczania.Controllers
 
                 List<Word> orderTaskWordList = db.WordInOrderTasks.Where(w => w.OrderTaskID == id).Select(w => w.OrderTaskWord).ToList();
                 OrderTask taskWord = db.OrderTasks.Single(w => w.ID == id);
-                
+
 
                 for (int i = 0; i < orderTaskWordList.Count; i++)
                 {
@@ -235,7 +228,7 @@ namespace SystemWspomaganiaNauczania.Controllers
                 var profileID = db.Profiles.Single(w => w.Email == User.Identity.Name).ID;
                 var tempTask = db.OrderTaskSolved.FirstOrDefault(t => t.ProfileID == profileID && t.OrderTaskID == id);
 
-                if(tempTask != null)
+                if (tempTask != null)
                 {
                     if (tempTask.Solved != true)
                     {
@@ -255,7 +248,7 @@ namespace SystemWspomaganiaNauczania.Controllers
 
                 return View("Check", taskWord);
 
-               
+
             }
             return View();
 
@@ -284,7 +277,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Description,Image")] OrderTask orderTask, OrderTaskWordViewModel orderTaskWord)
-        { 
+        {
             if (ModelState.IsValid)
             {
                 if (orderTask.ID == 0)
@@ -363,17 +356,18 @@ namespace SystemWspomaganiaNauczania.Controllers
                     }
                     else
                     {
-                        if(item.Name != null) { 
-                        Word word = new Word();
-                        word.Name = item.Name;
-                        db.TaskWords.Add(word);
-                        db.SaveChanges();
+                        if (item.Name != null)
+                        {
+                            Word word = new Word();
+                            word.Name = item.Name;
+                            db.TaskWords.Add(word);
+                            db.SaveChanges();
 
-                        WordInOrderTask wordInOrderTask = new WordInOrderTask();
-                        wordInOrderTask.OrderTaskID = taskID;
-                        wordInOrderTask.OrderTaskWordID = word.ID;
-                        db.WordInOrderTasks.Add(wordInOrderTask);
-                        db.SaveChanges();
+                            WordInOrderTask wordInOrderTask = new WordInOrderTask();
+                            wordInOrderTask.OrderTaskID = taskID;
+                            wordInOrderTask.OrderTaskWordID = word.ID;
+                            db.WordInOrderTasks.Add(wordInOrderTask);
+                            db.SaveChanges();
                         }
                     }
                 }

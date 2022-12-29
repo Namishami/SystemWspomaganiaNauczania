@@ -10,103 +10,103 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
+    <div class="form-horizontal">
 
-    <hr />
-    <div class="row">
+        <hr />
+        <div class="row">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-4">
 
-                <div style="padding: 10px;">
-                    <label for="Title">Nazwa </label>
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    <div style="padding: 10px;">
+                        <label for="Title">Nazwa </label>
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
 
+                    </div>
+                    <div style="padding: 10px;">
+                        <label for="Description">Krótki opis</label>
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-                <div style="padding: 10px;">
-                    <label for="Description">Krótki opis</label>
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div style="padding: 10px;">
-                    <label for="image">Zdjęcie</label>
-                    <input type="file" name="imageOrderTaskFile" id="imageTest" style="padding: 6px 0px;" />
-                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                <div class="col-md-4">
+                    <div style="padding: 10px;">
+                        <label for="image">Zdjęcie</label>
+                        <input type="file" name="imageOrderTaskFile" id="imageTest" style="padding: 6px 0px;" />
+                        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <hr />
+        <hr />
 
-    <h2>Wyrazy do uporządkowania</h2>
+        <h2>Wyrazy do uporządkowania</h2>
 
-    <div class="container">
-        <table class="table table-striped" id="myTable">
-            <tbody class="MyContainer" id="MyContainer">
-                @foreach (var item in ViewBag.taskWords)
-                {
-                    <tr draggable="true" class="draggable" tabindex="0" aria-dropeffect="move" aria-grabbed="false">
-                        <td><input type="text" class="form-control items setName" value="@item.Name" /> </td>
-                        <td>
-                            <input type="Button" class="btn btn-danger" onclick="DeleteItem(this)" value="Usuń wyraz" />
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-
-    <div class="form-group" style="padding-left:25px;">
-        <div class="col-md-offset-2 col-md-10" style="margin-left: 0; margin-top: 15px;">
-            <input type="submit" value="Zapisz zmiany" onclick="addClassName()" class="btn btn-success" />
-            <input type="button" value="Dodaj nowy wyraz" onclick="addNewWord()" class="btn btn-info" />
-            @Html.ActionLink("Powrót", "MyOrderTask", "Home", null, new { @class = "btn btn-default" })
-
+        <div class="container">
+            <table class="table table-striped" id="myTable">
+                <tbody class="MyContainer" id="MyContainer">
+                    @foreach (var item in ViewBag.taskWords)
+                    {
+                        <tr draggable="true" class="draggable" tabindex="0" aria-dropeffect="move" aria-grabbed="false">
+                            <td><input type="text" class="form-control items setName" value="@item.Name" /> </td>
+                            <td>
+                                <input type="Button" class="btn btn-danger" onclick="DeleteItem(this)" value="Usuń wyraz" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-    </div>
 
-</div>
+
+        <div class="form-group" style="padding-left:25px;">
+            <div class="col-md-offset-2 col-md-10" style="margin-left: 0; margin-top: 15px;">
+                <input type="submit" value="Zapisz zmiany" onclick="addClassName()" class="btn btn-success" />
+                <input type="button" value="Dodaj nowy wyraz" onclick="addNewWord()" class="btn btn-info" />
+                @Html.ActionLink("Powrót", "MyOrderTask", "Home", null, new { @class = "btn btn-default" })
+
+            </div>
+        </div>
+
+    </div>
 }
 
 
 <script type="text/javascript">
 
-   
-        var draggables = document.querySelectorAll(".draggable");
-        var containers = document.querySelectorAll(".MyContainer");
 
-        draggables.forEach(draggable => {
+    var draggables = document.querySelectorAll(".draggable");
+    var containers = document.querySelectorAll(".MyContainer");
 
-            draggable.addEventListener("dragstart", () => {
-                draggable.classList.add("dragging")
-                dragable.setAttribute("aria-grabbed", "true");
-               
-            })
+    draggables.forEach(draggable => {
 
-            draggable.addEventListener("dragend", () => {
-                draggable.classList.remove("dragging");
-                dragable.setAttribute("aria-grabbed", "false");
+        draggable.addEventListener("dragstart", () => {
+            draggable.classList.add("dragging")
+            dragable.setAttribute("aria-grabbed", "true");
 
-            })
         })
-   
-    
+
+        draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("dragging");
+            dragable.setAttribute("aria-grabbed", "false");
+
+        })
+    })
+
+
     containers.forEach(container => {
         container.setAttribute("aria-dropeffect", "execute");
         container.addEventListener("dragover", e => {
             e.preventDefault();
             const draggable = document.querySelector(".dragging")
             const afterElement = getDragAfterElement(container, e.clientY)
-            
+
             if (afterElement == null) {
-                
+
                 container.appendChild(draggable);
             } else {
 
@@ -140,7 +140,7 @@
             iterator++;
         });
     }
-   
+
     function addNewWord() {
         var tr = $("<tr/>");
         var contentTd = $("<td/>");
@@ -159,14 +159,14 @@
         tr.append(buttonTd);
 
         $("#MyContainer").append(tr);
-        
+
         draggables = document.querySelectorAll(".draggable");
 
         draggables.forEach(draggable => {
 
             draggable.addEventListener("dragstart", () => {
                 draggable.classList.add("dragging")
-                
+
             })
 
             draggable.addEventListener("dragend", () => {

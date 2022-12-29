@@ -5,25 +5,25 @@
     {
         @Html.AntiForgeryToken()
 
-<ul class="nav navbar-nav navbar-right">
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
-            Witaj @User.Identity.GetUserName()
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>@Html.ActionLink("Mój profil", "Details", "Profiles", routeValues: null, htmlAttributes: new { title = "Szczegóły" })</li>
-            @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
-            {
-                <li>@Html.ActionLink("Moje zadania", "MyOrderTask", "Profiles", routeValues: null, htmlAttributes: new { title = "Moje zadania" })</li>
-            }
-            <li>@Html.ActionLink("Rozwiązane zadania", "OrderTaskSolved", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
-            <li>@Html.ActionLink("Opcje", "Options", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                    Witaj @User.Identity.GetUserName()
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>@Html.ActionLink("Mój profil", "Details", "Profiles", routeValues: null, htmlAttributes: new { title = "Szczegóły" })</li>
+                    @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+                    {
+                        <li>@Html.ActionLink("Moje zadania", "MyOrderTask", "Profiles", routeValues: null, htmlAttributes: new { title = "Moje zadania" })</li>
+                    }
+                    <li>@Html.ActionLink("Rozwiązane zadania", "OrderTaskSolved", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
+                    <li>@Html.ActionLink("Opcje", "Options", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
 
+                </ul>
+            </li>
+            <li>  <a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a></li>
         </ul>
-    </li>
-    <li>  <a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a></li>
-</ul>
-       
+
     }
 }
 else

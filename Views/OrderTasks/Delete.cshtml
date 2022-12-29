@@ -27,12 +27,12 @@
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
-                        
-                            <input type="submit" value="Delete" class="btn btn-danger" style="float:right; margin-left:5px; margin-top:50%">
-                           @Html.ActionLink("Powrót", "Index", null, new { @class = "btn btn-default", @style = "float:right; margin-left:5px; margin-top:50%" })
-                     
+
+                        <input type="submit" value="Delete" class="btn btn-danger" style="float:right; margin-left:5px; margin-top:50%">
+                        @Html.ActionLink("Powrót", "Index", null, new { @class = "btn btn-default", @style = "float:right; margin-left:5px; margin-top:50%" })
+
                     }
-                    
+
                 </div>
             </div>
         </div>

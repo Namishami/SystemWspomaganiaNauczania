@@ -1,13 +1,9 @@
 ﻿using PagedList;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.Entity;
-using System.Drawing;
 using System.Linq;
 using System.Net;
-using System.Net.Configuration;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -22,7 +18,7 @@ namespace SystemWspomaganiaNauczania.Controllers
     {
         private ProjectContext db = new ProjectContext();
 
-       
+
         // GET: Profiles/Details/5
         public ActionResult Details(int? id)
         {
@@ -30,10 +26,10 @@ namespace SystemWspomaganiaNauczania.Controllers
             return View(profile);
         }
 
-    
+
         public ActionResult Options()
         {
-            var profile = db.Profiles.FirstOrDefault(p=>p.Email==User.Identity.Name);
+            var profile = db.Profiles.FirstOrDefault(p => p.Email == User.Identity.Name);
             if (profile == null)
                 throw new NullProfileException("Nie znaleziono zalogowanego użytkownika");
             var style = db.FontStyles.FirstOrDefault(s => s.Profile.Email == profile.Email);
@@ -49,7 +45,7 @@ namespace SystemWspomaganiaNauczania.Controllers
                 if (profile == null)
                     throw new NullProfileException("Nie znaleziono zalogowanego użytkownika");
 
-                var style = db.FontStyles.FirstOrDefault(s=>s.Profile.Email ==profile.Email);
+                var style = db.FontStyles.FirstOrDefault(s => s.Profile.Email == profile.Email);
                 if (style == null)
                 {
                     fontStyle.Profile = profile;
@@ -67,7 +63,7 @@ namespace SystemWspomaganiaNauczania.Controllers
 
                 var allKeys = settings.AllKeys;
 
-                if(!allKeys.Any(p=>p.Equals("FontName")) || !allKeys.Any(p => p.Equals("FontSize") )|| !allKeys.Any(p => p.Equals("FontColor")))
+                if (!allKeys.Any(p => p.Equals("FontName")) || !allKeys.Any(p => p.Equals("FontSize")) || !allKeys.Any(p => p.Equals("FontColor")))
                 {
                     settings.Add("FontName", fontStyle.FontFace);
                     settings.Add("FontSize", fontStyle.Size + "px");
@@ -91,7 +87,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         public ActionResult Edit(int? id)
         {
 
-           
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -113,7 +109,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         {
             if (ModelState.IsValid)
             {
-                Profile tempProfile = db.Profiles.Single(p=> p.ID == profile.ID);
+                Profile tempProfile = db.Profiles.Single(p => p.ID == profile.ID);
                 tempProfile.FirstName = profile.FirstName;
                 tempProfile.LastName = profile.LastName;
 
@@ -132,7 +128,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         public ActionResult MyOrderTask(string sortOrder, string currentFilter, string searchString, int? page)
         {
 
-           
+
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -174,7 +170,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         }
         public ActionResult MyGroupTask(string sortOrder, string currentFilter, string searchString, int? page)
         {
-           
+
 
 
             ViewBag.CurrentSort = sortOrder;
@@ -218,7 +214,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         public ActionResult OrderTaskSolved(string sortOrder, string currentFilter, string searchString, int? page)
         {
 
-            
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
@@ -234,9 +230,9 @@ namespace SystemWspomaganiaNauczania.Controllers
             ViewBag.CurrentFilter = searchString;
 
 
-            var tempOrderTask = db.OrderTaskSolved.Where(p => p.Profile.Email == User.Identity.Name).Select(p=> new SolvedViewModel { OrderTask = p.OrderTask, Solved = p.Solved });
+            var tempOrderTask = db.OrderTaskSolved.Where(p => p.Profile.Email == User.Identity.Name).Select(p => new SolvedViewModel { OrderTask = p.OrderTask, Solved = p.Solved });
 
-            
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 tempOrderTask = tempOrderTask.Where(s => s.OrderTask.Title.Contains(searchString));
@@ -260,7 +256,7 @@ namespace SystemWspomaganiaNauczania.Controllers
 
         public ActionResult GroupTaskSolved(string sortOrder, string currentFilter, string searchString, int? page)
         {
-           
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 

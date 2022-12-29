@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -58,7 +57,7 @@ namespace SystemWspomaganiaNauczania.Controllers
             return View(tempGroupTask.ToPagedList(pageNumber, pageSize));
         }
 
-       
+
         // GET: GroupTasks/Details/5
         public ActionResult Details(int? id)
         {
@@ -203,7 +202,7 @@ namespace SystemWspomaganiaNauczania.Controllers
                 var groupTaskWord2 = db.GroupTaskWords.Where(w => w.GroupTaskID == ID && w.Container.ContainerNumber == 2).Select(w => w.Word.Name).ToList();
                 var groupTaskWord3 = db.GroupTaskWords.Where(w => w.GroupTaskID == ID && w.Container.ContainerNumber == 3).Select(w => w.Word.Name).ToList();
 
-                if (groupTaskWordViewModel.Wordslist1!=null && groupTaskWordViewModel.Wordslist1.Count > 0||
+                if (groupTaskWordViewModel.Wordslist1 != null && groupTaskWordViewModel.Wordslist1.Count > 0 ||
                     groupTaskWordViewModel.WordsList2 != null && groupTaskWordViewModel.WordsList2.Count > 0 ||
                     groupTaskWordViewModel.WordsList3 != null && groupTaskWordViewModel.WordsList3.Count > 0)
                 {
@@ -219,7 +218,7 @@ namespace SystemWspomaganiaNauczania.Controllers
                         //dobrze
                         ViewBag.result = true;
                     }
-                    
+
                 }
                 else
                 {
@@ -233,9 +232,10 @@ namespace SystemWspomaganiaNauczania.Controllers
 
                 if (tempTask != null)
                 {
-                    if (tempTask.Solved != true) { 
-                    tempTask.Solved = ViewBag.result;
-                    db.SaveChanges();
+                    if (tempTask.Solved != true)
+                    {
+                        tempTask.Solved = ViewBag.result;
+                        db.SaveChanges();
                     }
                 }
                 else
@@ -247,7 +247,7 @@ namespace SystemWspomaganiaNauczania.Controllers
                     db.GroupTaskSolved.Add(groupTaskSolved);
                     db.SaveChanges();
                 }
-                    return View("Check", task);
+                return View("Check", task);
             }
             return View();
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -32,9 +31,9 @@ namespace SystemWspomaganiaNauczania.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -238,7 +237,7 @@ namespace SystemWspomaganiaNauczania.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Details","Profiles");
+                return RedirectToAction("Details", "Profiles");
             }
             AddErrors(result);
             return View(model);
@@ -333,7 +332,7 @@ namespace SystemWspomaganiaNauczania.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +383,6 @@ namespace SystemWspomaganiaNauczania.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

@@ -35,13 +35,13 @@
             <div class="card-body" style="padding:2%">
                 <h4 class="card-title">@item.Title</h4>
                 <p class="card-text">@item.Description</p>
-                <a href="/OrderTasks/Solve/@item.ID"  role="button" class="btn btn-success" style="float:right; margin-left:5px;">Rozwiąż </a>
-                <a href="/OrderTasks/Details/@item.ID"role="button" class="btn btn-default" style="float: right; margin-left: 5px;">Szczegóły </a>
+                <a href="/OrderTasks/Solve/@item.ID" role="button" class="btn btn-success" style="float:right; margin-left:5px;">Rozwiąż </a>
+                <a href="/OrderTasks/Details/@item.ID" role="button" class="btn btn-default" style="float: right; margin-left: 5px;">Szczegóły </a>
                 @if (Context.User.IsInRole("Admin"))
                 {
                     <a href="/OrderTasks/Delete/@item.ID" role="button" class="btn btn-danger" style="float:right">Usuń </a>
                 }
-              
+
             </div>
         </div>
     }

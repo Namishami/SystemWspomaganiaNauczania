@@ -7,60 +7,60 @@
 <h2 tabindex="0" style="margin-bottom:50px;">Dostosuj krój, rozmiar i kolor czcionki</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
-<div class="row">
+    <div class="row">
 
-    <div class="col-md-4">
-        <div style="padding: 10px;">
-            <label for="fontFace"> Krój czcionki:</label>
-            <div id="fontFace">
-                <input type="hidden" id="FontName" name="name" value="@Model.FontFace" />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Times New Roman"/>Times New Roman</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Arial"/>Arial</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Helvetica"/>Helvetica</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Verdana"/>Verdana</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Gill Sans"/>Gill Sans</label><br />
+        <div class="col-md-4">
+            <div style="padding: 10px;">
+                <label for="fontFace"> Krój czcionki:</label>
+                <div id="fontFace">
+                    <input type="hidden" id="FontName" name="name" value="@Model.FontFace" />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Times New Roman" />Times New Roman</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Arial" />Arial</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Helvetica" />Helvetica</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Verdana" />Verdana</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="FontFace" value="Gill Sans" />Gill Sans</label><br />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <div style="padding: 10px;">
+                <label for="fontSize"> Rozmiar czcionki:</label>
+                <div id="fontSize">
+                    <input type="hidden" id="FontSize" name="name" value="@Model.Size" />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="24" />12px</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="14" />14px</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="18" />18px</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="24" />24px</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="30" />30px</label><br />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <div style="padding: 10px;">
+                <label for="fontColor"> Kolor czcionki:</label>
+                <div id="fontColor">
+                    <input type="hidden" id="FontColor" name="name" value="@Model.Color" />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Black" />Czarny</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Red" />Czerwony</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Green" />Zielony</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Blue" />Niebieski</label><br />
+                    <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Gray" />Szary</label><br />
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group" style=" float:right">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
-
     </div>
-
-    <div class="col-md-4">
-        <div style="padding: 10px;">
-            <label for="fontSize"> Rozmiar czcionki:</label>
-            <div id="fontSize">
-                <input type="hidden" id="FontSize" name="name" value="@Model.Size" />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="24" />12px</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="14" />14px</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="18" />18px</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="24" />24px</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Size" value="30" />30px</label><br />
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-md-4">
-        <div style="padding: 10px;">
-            <label for="fontColor"> Kolor czcionki:</label>
-            <div id="fontColor">
-                <input type="hidden" id="FontColor" name="name" value="@Model.Color" />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Black" />Czarny</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Red" />Czerwony</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Green" />Zielony</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Blue" />Niebieski</label><br />
-                <label><input type="radio" class="radioInput" role="radio" aria-checked="false" name="Color" value="Gray" />Szary</label><br />
-            </div>
-        </div>
-
-    </div>
-    <div class="form-group" style=" float:right">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-success" />
-        </div>
-    </div>
-</div>
 }
 <script>
     var radioInputs = document.getElementsByClassName("radioInput");

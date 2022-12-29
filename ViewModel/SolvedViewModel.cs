@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using SystemWspomaganiaNauczania.Models;
+﻿using SystemWspomaganiaNauczania.Models;
 
 namespace SystemWspomaganiaNauczania.ViewModel
 {

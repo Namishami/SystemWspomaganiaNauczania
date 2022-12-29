@@ -48,7 +48,8 @@
 </div>
 <hr />
 <h2>Komentarze</h2>
-@if (User.Identity.IsAuthenticated) { 
+@if (User.Identity.IsAuthenticated)
+{
 
     <div id="commentDiv">
         @using (Html.BeginForm("Create", "Comments", FormMethod.Post))
@@ -90,15 +91,15 @@
                                 @Html.AntiForgeryToken()
 
                                 <td>
-                                    <input type="hidden" name="id"value="@item.ID" />
+                                    <input type="hidden" name="id" value="@item.ID" />
                                     <input type="submit" class="btn btn-danger" value="Usuń komentarz" />
                                 </td>
                             }
-                    }
-                    else
-                    {
-                        <td width="128px" height="33.5px" style="padding:8px"></td>
-                    }
+                        }
+                        else
+                        {
+                            <td width="128px" height="33.5px" style="padding:8px"></td>
+                        }
 
                     </tr>
                 }

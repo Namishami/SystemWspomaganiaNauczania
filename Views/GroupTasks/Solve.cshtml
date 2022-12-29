@@ -16,10 +16,10 @@
             @foreach (var item in Model.Wordslist1)
             {
                 @*<label id="WordLabel" style="display:none">Wyraz do przeniesienia: @item.Name </label>*@
-               
-                    <input type="text" readonly="readonly" role="button" aria-grabbed="false" aria-labelledby="WordLabel"aria-description="Wyraz do przeniesienia @item.Name" draggable="true" style="cursor:move; margin:5px;" class="btn btn-default drag "value="@item.Name" />
-              
-                
+
+                <input type="text" readonly="readonly" role="button" aria-grabbed="false" aria-labelledby="WordLabel" aria-description="Wyraz do przeniesienia @item.Name" draggable="true" style="cursor:move; margin:5px;" class="btn btn-default drag " value="@item.Name" />
+
+
             }
         </div>
         @if (Model.AreaName[0] != null)
@@ -85,7 +85,7 @@
             var keyName = event.key;
             if (keyName == 'Control') {
                 draggable.addEventListener("keydown", (event) => {
-                    if (event.key =='q') {
+                    if (event.key == 'q') {
                         draggable.classList.add("dragging")
                         setButtonDissabled(draggables)
                         draggable.setAttribute("aria-grabbed", "true")
@@ -117,7 +117,7 @@
                 draggable.classList.remove("first");
                 draggable.classList.remove("second");
                 draggable.classList.remove("third");
-               
+
             }
             container.appendChild(draggable);
         })
@@ -127,13 +127,13 @@
             if (keyName == 'Control') {
                 container.addEventListener("keydown", (event) => {
                     if (event.key == "x") {
-                    var element = document.getElementsByClassName("dragging")[0]
-                    container.appendChild(element);
-                    console.log(element)
-                    element.classList.remove("dragging");
-                    /*document.getElementById("wordContainer").firstChild.focus();*/
-                    unDissabled(draggables)
-                    draggable.removeAttribute("aria-dropeffect", "move")
+                        var element = document.getElementsByClassName("dragging")[0]
+                        container.appendChild(element);
+                        console.log(element)
+                        element.classList.remove("dragging");
+                        /*document.getElementById("wordContainer").firstChild.focus();*/
+                        unDissabled(draggables)
+                        draggable.removeAttribute("aria-dropeffect", "move")
                         draggable.setAttribute("aria-grabbed", "false")
                     }
                 })

@@ -10,11 +10,11 @@
 {
     <input type="hidden" readonly="readonly" value="@ViewBag.TaskID" />
 
-    <div class="MyContainer"  id="MyContainer" aria-dropeffect="execute">
+    <div class="MyContainer" id="MyContainer" aria-dropeffect="execute">
 
         @foreach (var item in Model.Names)
         {
-            <input type="text" readonly="readonly" role="button" aria-grabbed="false"  draggable="true" class="btn btn-default setName draggable" value="@item.Name" />
+            <input type="text" readonly="readonly" role="button" aria-grabbed="false" draggable="true" class="btn btn-default setName draggable" value="@item.Name" />
         }
 
     </div>
@@ -49,7 +49,7 @@
                         draggable.setAttribute("aria-dropeffect", "move")
                     }
                 })
-            } 
+            }
         })
 
         draggable.addEventListener("keydown", (event) => {
@@ -103,7 +103,7 @@
             draggable.classList.remove("dragging");
         })
     }
-  
+
     function addClassName() {
         var iterator = 0;
         $(".setName").each(function () {
