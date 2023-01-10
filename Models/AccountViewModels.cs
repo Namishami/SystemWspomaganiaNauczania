@@ -99,6 +99,7 @@ namespace SystemWspomaganiaNauczania.Models
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
+        public int ProfileID { get; set; }
     }
 
     public class ForgotPasswordViewModel

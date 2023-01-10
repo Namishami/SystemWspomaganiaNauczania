@@ -7,18 +7,21 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                <a class="nav-link dropdown-toggle" tabindex="0" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
                     Witaj @User.Identity.GetUserName()
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>@Html.ActionLink("Mój profil", "Details", "Profiles", routeValues: null, htmlAttributes: new { title = "Szczegóły" })</li>
+                    <li>@Html.ActionLink("Mój profil", "Details", "Profiles", routeValues: null, htmlAttributes: new { title = "Szczegóły", @tabindex = "0" })</li>
                     @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
                     {
-                        <li>@Html.ActionLink("Moje zadania", "MyOrderTask", "Profiles", routeValues: null, htmlAttributes: new { title = "Moje zadania" })</li>
+                        <li>@Html.ActionLink("Moje zadania", "MyOrderTask", "Profiles", routeValues: null, htmlAttributes: new { title = "Moje zadania", @tabindex = "0" })</li>
                     }
-                    <li>@Html.ActionLink("Rozwiązane zadania", "OrderTaskSolved", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
-                    <li>@Html.ActionLink("Opcje", "Options", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania" })</li>
-
+                    <li>@Html.ActionLink("Rozwiązane zadania", "OrderTaskSolved", "Profiles", routeValues: null, htmlAttributes: new { title = "Rozwiązane zadania", @tabindex = "0" })</li>
+                    <li>@Html.ActionLink("Opcje", "Options", "Profiles", routeValues: null, htmlAttributes: new { title = "Opcje", @tabindex = "0" })</li>
+                    @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+                    {
+                        <li>@Html.ActionLink("Zarządzanie użytkownikami", "", "Profiles", routeValues: null, htmlAttributes: new { title = "Zarządzanie", @tabindex = "0" })</li>
+                    }
                 </ul>
             </li>
             <li>  <a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a></li>

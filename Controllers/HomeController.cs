@@ -9,7 +9,7 @@ namespace SystemWspomaganiaNauczania.Controllers
         ProjectContext db = new ProjectContext();
         public ActionResult Index()
         {
-            var profile = db.Profiles.FirstOrDefault();
+            db.Profiles.FirstOrDefault();
             return View();
         }
         public ActionResult InformationPage()

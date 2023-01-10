@@ -1,0 +1,56 @@
+﻿@model SystemWspomaganiaNauczania.Models.Profile
+
+@{
+    ViewBag.Title = "Usuń konto";
+}
+<h2>Potwierdź usunięcie konta!</h2>
+
+@using (Html.BeginForm("Delete", "Profiles", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal ">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="row">
+
+            <div class="form-group">
+                <div style="display: none;">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4">
+                    <label for="Name">Imię</label>
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+
+                    <label for="Surname">Nazwisko</label>
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4">
+                    <label for="image">Zdjęcie profilowe</label>
+                    <input type="file" name="ProfileImage" id="imageTest" style="padding: 6px 0px;" />
+                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" style="margin:0">
+                    <a href="/Details" class="btn btn-default">Powrót</a>
+                    <input type="submit" value="Usuń" class="btn btn-danger" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

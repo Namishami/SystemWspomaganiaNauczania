@@ -42,12 +42,14 @@
                 @Html.DisplayFor(model => model.LastName)
             </dd>
             </h4>
-
         </div>
         <div class="buttons">
             <a href="/Profiles/Edit/@Model.ID"><button class="btn btn-primary">Edytuj profil</button></a>
-            <a href="/Manage/ChangePassword"><button class="btn btn-primary">Zmień hasło</button></a>
-            <button class="btn btn-primary">Moje statystyki</button>
+            @if (User.Identity.Name == Model.Email)
+            {
+                <a href="/Manage/ChangePassword"><button class="btn btn-primary">Zmień hasło</button></a>
+            }
+            <a href="/Profiles/OrderTaskSolved/@Model.ID"><button class="btn btn-primary">Statystyki</button></a>
         </div>
     </div>
 </div>

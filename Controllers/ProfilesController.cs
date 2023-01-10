@@ -1,12 +1,18 @@
-﻿using PagedList;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using PagedList;
 using System;
 using System.Configuration;
 using System.Data;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Services.Protocols;
 using SystemWspomaganiaNauczania.DAL;
 using SystemWspomaganiaNauczania.Exceptions;
 using SystemWspomaganiaNauczania.Models;
@@ -17,15 +23,67 @@ namespace SystemWspomaganiaNauczania.Controllers
     public class ProfilesController : Controller
     {
         private ProjectContext db = new ProjectContext();
+        private ApplicationUserManager _userManager;
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        [SecurityRole("Admin")]
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var tempProfiles = from p in db.Profiles
+                                select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                tempProfiles = tempProfiles.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    tempProfiles = tempProfiles.OrderBy(s => s.FirstName);
+                    break;
+                default:
+                    tempProfiles = tempProfiles.OrderBy(s => s.FirstName);
+                    break;
+            }
+
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+
+
+            return View(tempProfiles.ToPagedList(pageNumber, pageSize));
+        }
 
         // GET: Profiles/Details/5
         public ActionResult Details(int? id)
         {
-            var profile = db.Profiles.Single(p => p.Email == User.Identity.Name);
+            var profile = db.Profiles.Single(p => p.ID == id);
             return View(profile);
         }
-
 
         public ActionResult Options()
         {
@@ -86,8 +144,6 @@ namespace SystemWspomaganiaNauczania.Controllers
         // GET: Profiles/Edit/5
         public ActionResult Edit(int? id)
         {
-
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,9 +183,6 @@ namespace SystemWspomaganiaNauczania.Controllers
 
         public ActionResult MyOrderTask(string sortOrder, string currentFilter, string searchString, int? page)
         {
-
-
-
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
@@ -170,9 +223,6 @@ namespace SystemWspomaganiaNauczania.Controllers
         }
         public ActionResult MyGroupTask(string sortOrder, string currentFilter, string searchString, int? page)
         {
-
-
-
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
@@ -213,8 +263,6 @@ namespace SystemWspomaganiaNauczania.Controllers
 
         public ActionResult OrderTaskSolved(string sortOrder, string currentFilter, string searchString, int? page)
         {
-
-
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
@@ -292,9 +340,33 @@ namespace SystemWspomaganiaNauczania.Controllers
 
             return View(tempGroupTask.ToPagedList(pageNumber, pageSize));
         }
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            Profile profile = db.Profiles.Single(p => p.ID == id);
+            if (profile == null)
+                throw new NullProfileException();
+            return View(profile);
+        }
 
-
-
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (ModelState.IsValid)
+            {
+                Profile tempProfile = db.Profiles.Single(p => p.ID == id);
+                if(tempProfile != null)
+                {
+                    UserManager.Delete(UserManager.FindByEmail(tempProfile.Email));
+                    var fonts = db.FontStyles.FirstOrDefault(p => p.Profile.ID == tempProfile.ID);
+                    db.FontStyles.Remove(fonts);
+                    db.Profiles.Remove(tempProfile);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            return RedirectToAction("Index");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -17,44 +17,41 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Strona główna", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Strona główna", "Index", "Home", new { @class = "navbar-brand" })
             </div>
 
             @if (Request.IsAuthenticated)
             {
                 <ul class="nav navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" tabindex="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                        <a class="nav-link dropdown-toggle" tabindex="0" id="navbarDropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="cursor:pointer;">
                             Ustaw w kolejności
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                            <li>@Html.ActionLink("Wszystkie zadania", "Index", "OrderTasks", new { @class = "dropdown-item" }, null)</li>
+                            <li>@Html.ActionLink("Wszystkie zadania", "Index", "OrderTasks", new { @class = "dropdown-item", @tabindex = "0" }, null)</li>
                             @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
                             {
-                                <li>@Html.ActionLink("Nowe zadanie", "Create", "OrderTasks", new { @class = "dropdown-item" }, null)</li>
+                                <li>@Html.ActionLink("Nowe zadanie", "Create", "OrderTasks", new { @class = "dropdown-item", @tabindex = "0" }, null)</li>
                             }
 
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" tabindex="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                        <a class="nav-link dropdown-toggle" tabindex="0" id="navbarDropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="cursor:pointer;">
                             Grupowanie
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                            <li>@Html.ActionLink("Wszystkie zadania", "Index", "GroupTasks", new { @class = "dropdown-item" }, null)</li>
+                            <li>@Html.ActionLink("Wszystkie zadania", "Index", "GroupTasks", new { @class = "dropdown-item", @tabindex = "0" }, null)</li>
                             @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
                             {
-                                <li>@Html.ActionLink("Nowe zadanie", "Create", "GroupTasks", new { @class = "dropdown-item" }, null)</li>
+                                <li>@Html.ActionLink("Nowe zadanie", "Create", "GroupTasks", new { @class = "dropdown-item", @tabindex = "0" }, null)</li>
                             }
 
                         </ul>
                     </li>
-
-
-
                 </ul>
             }
             @Html.ActionLink("Informacje", "InformationPage", "Home", new { area = "" }, new { @class = "navbar-brand" })
@@ -121,7 +118,6 @@
         var inputTag = document.querySelectorAll("input");
         inputTag.forEach(input => {
             input.style.fontFamily = FontName;
-            input.style.color = FontColor;
             input.style.fontSize = FontSize;
         })
         }
